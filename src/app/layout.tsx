@@ -1,6 +1,9 @@
 import { Inter } from 'next/font/google';
-
 import type { Metadata } from 'next';
+
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+
+import { ReactQueryProvider } from '@/providers/ReactQueryProvider';
 
 import '@/stylesheets/globals.css';
 
@@ -18,7 +21,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={font.className}>{children}</body>
+      <body className={font.className}>
+        <ReactQueryProvider>
+          {children}
+          <ReactQueryDevtools />
+        </ReactQueryProvider>
+      </body>
     </html>
   );
 }
