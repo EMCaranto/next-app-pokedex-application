@@ -15,9 +15,7 @@ export const getPokemon = async ({ pageParams }: getPokemonProps) => {
 
   let filtered = await data.results.map((pokemon: {}, index: number) => {
     let paddedIndex =
-      pageParams === 0
-        ? ('' + (index + 1)).slice(-3)
-        : '' + (index + 1 + pageParams);
+      pageParams === 0 ? '' + (index + 1) : '' + (index + 1 + pageParams);
 
     console.log('Padded Index: ' + paddedIndex);
     const image = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${paddedIndex}.png`;
