@@ -1,8 +1,12 @@
+import { Pokemon } from '@/types/pokemon';
+
 interface getPokemonProps {
   pageParams: number;
 }
 
-export const getPokemon = async ({ pageParams }: getPokemonProps) => {
+export const getPokemon = async ({
+  pageParams,
+}: getPokemonProps): Promise<Pokemon[]> => {
   const res = await fetch(
     `https://pokeapi.co/api/v2/pokemon?limit=20&offset=${pageParams}`
   );
@@ -13,18 +17,20 @@ export const getPokemon = async ({ pageParams }: getPokemonProps) => {
 
   const data = await res.json();
 
-  let filtered = await data.results.map((pokemon: {}, index: number) => {
-    let paddedIndex =
-      pageParams === 0 ? '' + (index + 1) : '' + (index + 1 + pageParams);
+  const promises = data.results.map(
+    async (pokemon: { name: string; url: string }) => {
+      const detailRes = await fetch(pokemon.url);
+      const detailData = await detailRes.json();
 
-    console.log('Padded Index: ' + paddedIndex);
-    const image = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${paddedIndex}.png`;
+      return {
+        name: pokemon.name,
+        url: pokemon.url,
+        imageUrl: detailData.sprites.other['official-artwork'].front_default,
+      };
+    }
+  );
 
-    return {
-      ...pokemon,
-      imageUrl: image,
-    };
-  });
+  const pokemonDetail = await Promise.all(promises);
 
-  return filtered;
+  return pokemonDetail;
 };
