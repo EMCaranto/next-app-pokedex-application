@@ -22,7 +22,7 @@ export default function RootPage() {
     queryFn: ({ pageParam = 0 }) =>
       getPokemon({ pageParams: pageParam, pageSize: 20 }),
     initialPageParam: 0,
-    getNextPageParam: (allPages) => {
+    getNextPageParam: (lastPage, allPages) => {
       const currentCount = allPages ? allPages.flat().length : 0;
       return currentCount / 20;
     },
