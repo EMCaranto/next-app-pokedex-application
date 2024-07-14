@@ -17,13 +17,12 @@ export default function RootPage() {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-    status,
   } = useInfiniteQuery({
     queryKey: ['pokemons'],
     queryFn: ({ pageParam = 0 }) =>
       getPokemon({ pageParams: pageParam, pageSize: 20 }),
     initialPageParam: 0,
-    getNextPageParam: (lastPage, allPages) => {
+    getNextPageParam: (allPages) => {
       const currentCount = allPages ? allPages.flat().length : 0;
       return currentCount / 20;
     },

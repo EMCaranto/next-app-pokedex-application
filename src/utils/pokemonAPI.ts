@@ -1,6 +1,3 @@
-import { Pokemon } from '@/components/Pokemon';
-import { error } from 'console';
-
 interface Pokemon {
   name: string;
   url: string;
