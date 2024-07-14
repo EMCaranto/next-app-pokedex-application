@@ -5,7 +5,7 @@ import React, { useEffect } from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useInView } from 'react-intersection-observer';
 
-import { getPokemon } from '@/utils/getPokemon';
+import { getPokemon } from '@/utils/pokemonAPI';
 import { Pokemon } from '@/components/Pokemon';
 
 export default function RootPage() {
