@@ -2,13 +2,28 @@ import { Pokemon } from '@/types/pokemon';
 
 interface getPokemonProps {
   pageParams: number;
+  pageSize: number;
 }
 
 export const getPokemon = async ({
   pageParams,
+  pageSize,
 }: getPokemonProps): Promise<Pokemon[]> => {
+  const limit = pageSize;
+
+  const offset = pageParams * limit;
+  const maxOffset = 1025;
+
+  let pokemonDetail: Pokemon[] = [];
+
+  if (offset >= maxOffset) {
+    return pokemonDetail;
+  }
+
+  const adjustLimit = Math.min(limit, maxOffset - offset);
+
   const res = await fetch(
-    `https://pokeapi.co/api/v2/pokemon?limit=20&offset=${pageParams}`
+    `https://pokeapi.co/api/v2/pokemon?limit=${adjustLimit}&offset=${offset}`
   );
 
   if (!res.ok) {
@@ -25,12 +40,14 @@ export const getPokemon = async ({
       return {
         name: pokemon.name,
         url: pokemon.url,
-        imageUrl: detailData.sprites.other['official-artwork'].front_default,
+        imageUrl: detailData.sprites.front_default,
       };
     }
   );
 
-  const pokemonDetail = await Promise.all(promises);
+  const batchPokemonDetail = await Promise.all(promises);
+
+  pokemonDetail = pokemonDetail.concat(batchPokemonDetail);
 
   return pokemonDetail;
 };

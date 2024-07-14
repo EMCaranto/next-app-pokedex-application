@@ -10,7 +10,14 @@ interface PokemonProps {
 export const Pokemon = ({ name, image, innerRef }: PokemonProps) => {
   return (
     <div ref={innerRef}>
-      <Image src={image} height={100} width={100} alt={name} priority />
+      <Image
+        className="h-auto w-auto"
+        src={image}
+        height={64}
+        width={64}
+        alt={name}
+        priority
+      />
       <p>{name}</p>
     </div>
   );
