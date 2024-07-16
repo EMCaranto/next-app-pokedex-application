@@ -7,7 +7,7 @@ import { ReactQueryProvider } from '@/providers/ReactQueryProvider';
 
 import '@/stylesheets/globals.css';
 
-const font = Inter({ subsets: ['latin'] });
+import '@fontsource/poppins';
 
 export const metadata: Metadata = {
   title: 'Pokedex App',
@@ -21,7 +21,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={font.className}>
+      <body>
         <ReactQueryProvider>
           {children}
           <ReactQueryDevtools />
