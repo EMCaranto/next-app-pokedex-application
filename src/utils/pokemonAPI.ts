@@ -1,8 +1,4 @@
-interface Pokemon {
-  name: string;
-  url: string;
-  imageUrl: string;
-}
+import { Pokemon } from '@/types/pokemon';
 
 interface PokemonProps {
   pageParams: number;
