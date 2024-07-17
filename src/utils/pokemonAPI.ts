@@ -47,6 +47,9 @@ export const getPokemon = async ({
         // pokemon url data
         id: pokemonData.id,
         sprites: pokemonData.sprites.front_default,
+        types: pokemonData.types.map(
+          (type: { type: { name: string } }) => type.type.name
+        ),
       };
     }
   );

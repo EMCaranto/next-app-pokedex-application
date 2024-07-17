@@ -161,6 +161,7 @@ export default function RootPage() {
                         key={pokemon.name}
                         id={pokemon.id}
                         sprites={pokemon.sprites}
+                        types={pokemon.types}
                         name={pokemon.name}
                         innerRef={
                           pageIndex === pokemons.pages.length - 1 &&
