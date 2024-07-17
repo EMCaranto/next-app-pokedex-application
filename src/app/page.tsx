@@ -159,7 +159,8 @@ export default function RootPage() {
                     page.map((pokemon, pokemonIndex) => (
                       <Pokemon
                         key={pokemon.name}
-                        image={pokemon.imageUrl}
+                        id={pokemon.id}
+                        sprites={pokemon.sprites}
                         name={pokemon.name}
                         innerRef={
                           pageIndex === pokemons.pages.length - 1 &&

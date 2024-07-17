@@ -34,13 +34,19 @@ export const getPokemon = async ({
 
   const promises = data.results.map(
     async (pokemon: { name: string; url: string }) => {
-      const responseDetail = await fetch(pokemon.url);
-      const pokemonData = await responseDetail.json();
+      // this will fetch the pokemon url
+      const pokemonUrl = await fetch(pokemon.url);
+
+      // this will fetch the pokemon details
+      const pokemonData = await pokemonUrl.json();
 
       return {
         name: pokemon.name,
         url: pokemon.url,
-        imageUrl: pokemonData.sprites.front_default,
+
+        // pokemon url data
+        id: pokemonData.id,
+        sprites: pokemonData.sprites.front_default,
       };
     }
   );
