@@ -16,28 +16,25 @@ import PokedexLogo from '@/icons/svg/pokedex.svg';
 export default function RootPage() {
   const { ref, inView } = useInView();
 
-  const {
-    data: pokemons,
-    error,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-  } = useInfiniteQuery({
-    queryKey: ['pokemons'],
-    queryFn: ({ pageParam = 0 }) =>
-      getPokemon({ pageParams: pageParam, pageSize: 25 }),
-    initialPageParam: 0,
-    getNextPageParam: (lastPage, allPages) => {
-      const currentCount = allPages ? allPages.flat().length : 0;
-      return currentCount / 25;
-    },
-  });
+  const { data, error, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useInfiniteQuery({
+      queryKey: ['pokemons'],
+      queryFn: ({ pageParam = 0 }) =>
+        getPokemon({ pageParams: pageParam, pageSize: 25 }),
+      initialPageParam: 0,
+      getNextPageParam: (lastPage, allPages) => {
+        const currentCount = allPages ? allPages.flat().length : 0;
+        return currentCount / 25;
+      },
+    });
 
   useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage) {
       fetchNextPage();
     }
   }, [fetchNextPage, hasNextPage, inView, isFetchingNextPage]);
+
+  const totalPokemon = data?.pages?.[0]?.totalCount || 0;
 
   // Custom Scrollbar
   const parentRef = useRef<HTMLDivElement>(null);
@@ -126,7 +123,7 @@ export default function RootPage() {
                 priority
               />
               <span className="text-sm font-semibold tracking-tight text-slate-50">
-                1025
+                {totalPokemon}
               </span>
               <div className="ml-[16px] h-[20px] w-[2px] rounded-full bg-slate-500"></div>
             </div>
@@ -155,8 +152,8 @@ export default function RootPage() {
                 ref={childRef}
               >
                 <div className="flex h-full gap-x-[4px]">
-                  {pokemons?.pages?.map((page, pageIndex) =>
-                    page.map((pokemon, pokemonIndex) => (
+                  {data?.pages?.map((page, pageIndex) =>
+                    page.pokemon.map((pokemon, pokemonIndex) => (
                       <Pokemon
                         key={pokemon.name}
                         id={pokemon.id}
@@ -164,8 +161,8 @@ export default function RootPage() {
                         types={pokemon.types}
                         name={pokemon.name}
                         innerRef={
-                          pageIndex === pokemons.pages.length - 1 &&
-                          pokemonIndex === page.length - 1
+                          pageIndex === data.pages.length - 1 &&
+                          pokemonIndex === page.pokemon.length - 1
                             ? ref
                             : undefined
                         }

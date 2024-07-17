@@ -5,10 +5,15 @@ interface PokemonProps {
   pageSize: number;
 }
 
+interface PokemonResponse {
+  pokemon: Pokemon[];
+  totalCount: number;
+}
+
 export const getPokemon = async ({
   pageParams,
   pageSize,
-}: PokemonProps): Promise<Pokemon[]> => {
+}: PokemonProps): Promise<PokemonResponse> => {
   const limit = pageSize;
 
   const offset = limit * pageParams;
@@ -17,7 +22,7 @@ export const getPokemon = async ({
   let pokemon: Pokemon[] = [];
 
   if (offset >= maxOffset) {
-    return pokemon;
+    return { pokemon, totalCount: maxOffset };
   }
 
   const dynamicLimit = Math.min(limit, maxOffset - offset);
@@ -31,6 +36,7 @@ export const getPokemon = async ({
   }
 
   const data = await response.json();
+  const totalCount = data.count;
 
   const promises = data.results.map(
     async (pokemon: { name: string; url: string }) => {
@@ -58,5 +64,5 @@ export const getPokemon = async ({
 
   pokemon = pokemon.concat(batchPokemon);
 
-  return pokemon;
+  return { pokemon, totalCount };
 };
