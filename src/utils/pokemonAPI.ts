@@ -37,27 +37,21 @@ const fetchPokemonData = async (pokemonUrl: string): Promise<PokemonProps> => {
       name: response.data.name,
       sprites: response.data.sprites.front_default,
       types: response.data.types.map(
-      (poke_types: { type: { name: string } }) => poke_types.type.name
-    ),
-  };
+        (poke_types: { type: { name: string } }) => poke_types.type.name
+      ),
+    };
+
+    return pokemonData;
+  } catch (error) {
+    console.error('An error occured on fetchPokemonData', error);
+    throw error;
+  }
 };
 
-export const getPokemon = async ({
-  pageParams,
-  pageSize,
-}: PokemonListProps): Promise<PokeAPIResponseProps> => {
-  const limit = pageSize;
+export const getPokemon = async (): Promise<PokeAPIResponseProps> => {
+  const maxOffset = 1025;
 
-  const offset = Math.floor(pageParams) * limit;
-  const maxOffset = 1025; // 1025 up to gen 9 Pokemon
-
-  if (offset >= maxOffset) {
-    return { pokemon: [], totalCount: maxOffset };
-  }
-
-  const dynamicLimit = Math.min(limit, maxOffset - offset);
-
-  const pokemonListData = await fetchPokemonList(dynamicLimit, offset);
+  const pokemonListData = await fetchPokemonList(maxOffset, 0);
   const totalCount = pokemonListData.count;
 
   const promises = pokemonListData.results.map(
@@ -65,10 +59,7 @@ export const getPokemon = async ({
       const pokemonData = await fetchPokemonData(pokemon.url);
 
       return {
-        // Pokémon List data
         url: pokemon.url,
-
-        // Pokémon Url data
         ...pokemonData,
       };
     }
