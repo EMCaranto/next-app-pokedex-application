@@ -1,31 +1,11 @@
-interface PokeAPIProps {
-  // This are inside the "pokemon.data.results"
+import axios from 'axios';
 
-  url: string;
-}
+import {
+  PokeAPIProps,
+  PokeAPIResponseProps,
+  PokemonProps,
+} from '@/types/pokemon';
 
-interface PokemonProps {
-  // This are inside the "pokemon.data.results.url"
-
-  id: number;
-  name: string;
-  sprites: string;
-  types: string[];
-}
-
-interface PokeAPIResponseProps {
-  // This are inside the "pokemon.data"
-
-  pokemon: (PokeAPIProps & PokemonProps)[];
-  totalCount: number;
-}
-
-interface PokemonListProps {
-  pageParams: number;
-  pageSize: number;
-}
-
-// Fetch Pokémon list from the API
 const fetchPokemonList = async (
   limit: number,
   offset: number
