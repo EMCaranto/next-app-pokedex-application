@@ -17,12 +17,13 @@ export const useCustomScrollbar = () => {
 
       const trackWidth = parent.clientWidth * parentWidth;
       const thumbWidth = thumb.clientWidth;
-      const maxThumbWidth = trackWidth - thumbWidth;
 
       const scrollPercentage =
         child.scrollLeft / (child.scrollWidth - child.clientWidth);
 
-      thumb.style.left = `${scrollPercentage * maxThumbWidth}px`;
+      const thumbPosition = trackWidth - thumbWidth;
+
+      thumb.style.left = `${scrollPercentage * thumbPosition}px`;
     };
 
     const syncScrollbar = (event: MouseEvent) => {
@@ -30,7 +31,8 @@ export const useCustomScrollbar = () => {
 
       const trackWidth = parent.clientWidth * parentWidth;
       const thumbWidth = thumb.clientWidth;
-      const maxThumbWidth = trackWidth - thumbWidth;
+
+      const thumbPosition = trackWidth - thumbWidth;
 
       const parentClientWidth = 0.125; // 12.5% padding on each side
 
@@ -42,13 +44,13 @@ export const useCustomScrollbar = () => {
       const scrollPercentage = mouse_x / trackWidth;
 
       child.scrollLeft =
-        scrollPercentage * (child.scrollWidth * child.clientWidth);
+        scrollPercentage * (child.scrollWidth - child.clientWidth);
 
-      thumb.style.left = `${Math.min(Math.max(0, mouse_x), maxThumbWidth)}px`;
+      thumb.style.left = `${Math.min(Math.max(0, mouse_x), thumbPosition)}px`;
     };
 
-    const onMouseMove = (mouseMove: MouseEvent) => {
-      syncScrollbar(mouseMove);
+    const onMouseMove = (event: MouseEvent) => {
+      syncScrollbar(event);
     };
 
     const onMouseUp = () => {

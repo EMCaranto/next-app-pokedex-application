@@ -67,7 +67,7 @@ export const getPokemon = async ({
   const limit = pageSize;
 
   const offset = Math.floor(pageParams) * limit;
-  const maxOffset = 151; // 1025 up to gen 9 Pokemon
+  const maxOffset = 1025; // 1025 up to gen 9 Pokemon
 
   if (offset >= maxOffset) {
     return { pokemon: [], totalCount: maxOffset };
