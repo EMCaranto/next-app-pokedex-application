@@ -1,7 +1,6 @@
 interface PokeAPIProps {
   // This are inside the "pokemon.data.results"
 
-  name: string;
   url: string;
 }
 
@@ -67,8 +66,8 @@ export const getPokemon = async ({
 }: PokemonListProps): Promise<PokeAPIResponseProps> => {
   const limit = pageSize;
 
-  const offset = limit * pageSize;
-  const maxOffset = 1025;
+  const offset = Math.floor(pageParams) * limit;
+  const maxOffset = 151; // 1025 up to gen 9 Pokemon
 
   if (offset >= maxOffset) {
     return { pokemon: [], totalCount: maxOffset };

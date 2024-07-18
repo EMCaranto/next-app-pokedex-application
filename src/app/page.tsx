@@ -25,8 +25,8 @@ export default function HomePage() {
         getPokemon({ pageParams: pageParam, pageSize: 25 }),
       initialPageParam: 0,
       getNextPageParam: (lastPage, allPages) => {
-        const currentCount = allPages ? allPages.flat().length : 0;
-        return currentCount / 25;
+        const nextPage = allPages.length;
+        return nextPage * 25 < lastPage.totalCount ? nextPage : undefined;
       },
     });
 
