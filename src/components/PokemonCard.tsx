@@ -2,23 +2,21 @@
 
 import React, { useState } from 'react';
 
-interface PokemonProps {
-  name: string;
-
+interface PokemonCardProps {
   id: number;
+  name: string;
   sprites: string;
   types: string[];
-
   innerRef?: (node?: Element | null | undefined) => void;
 }
 
-export const Pokemon = ({
-  name,
+export const PokemonCard = ({
   id,
+  name,
   sprites,
   types,
   innerRef,
-}: PokemonProps) => {
+}: PokemonCardProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleOpenModal = () => {
