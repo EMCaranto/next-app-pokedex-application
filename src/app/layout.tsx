@@ -1,4 +1,3 @@
-import { Inter } from 'next/font/google';
 import type { Metadata } from 'next';
 
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
@@ -11,14 +10,14 @@ import '@fontsource/poppins';
 
 export const metadata: Metadata = {
   title: 'Pokedex App',
-  description: 'Pokedex application created with Next.js',
+  description: 'Pokedex application',
 };
 
-export default function RootLayout({
-  children,
-}: {
+interface RootLayoutProps {
   children: React.ReactNode;
-}) {
+}
+
+export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en">
       <body>
