@@ -10,31 +10,33 @@ const fetchPokemonList = async (
   limit: number,
   offset: number
 ): Promise<{ results: PokeAPIProps[]; count: number }> => {
-  const response = await fetch(
-    `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`
-  );
+  try {
+    const response = await axios.get('https://pokeapi.co/api/v2/pokemon', {
+      params: {
+        limit: limit,
+        offset: offset,
+      },
+    });
 
-  if (!response.ok) {
-    console.log('An error occured in the fetchPokemonList');
+    return {
+      results: response.data.results,
+      count: response.data.count,
+    };
+  } catch (error) {
+    console.error('An error occured on fetchPokemonList', error);
+    throw error;
   }
-
-  return response.json();
 };
 
 const fetchPokemonData = async (pokemonUrl: string): Promise<PokemonProps> => {
-  const response = await fetch(pokemonUrl);
+  try {
+    const response = await axios.get(pokemonUrl);
 
-  if (!response.ok) {
-    console.log('An error occured in the fetchPokemonData');
-  }
-
-  const pokemonData = await response.json();
-
-  return {
-    id: pokemonData.id,
-    name: pokemonData.name,
-    sprites: pokemonData.sprites.front_default,
-    types: pokemonData.types.map(
+    const pokemonData: PokemonProps = {
+      id: response.data.id,
+      name: response.data.name,
+      sprites: response.data.sprites.front_default,
+      types: response.data.types.map(
       (poke_types: { type: { name: string } }) => poke_types.type.name
     ),
   };
