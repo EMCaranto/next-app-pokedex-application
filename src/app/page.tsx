@@ -10,7 +10,7 @@ import { UpperNavbar } from '@/components/UpperNavbar';
 
 import { useCustomScrollbar } from '@/hooks/useCustomScrollbar';
 
-import { Pokemon } from '@/types/pokemon';
+import { PokemonProps } from '@/types/pokemon';
 
 import { getPokemon } from '@/utils/pokemonAPI';
 
@@ -20,7 +20,7 @@ export default function HomePage() {
   const [sortCriteria, setSortCriteria] = useState<string>('id');
   const [sortOrder, setSortOrder] = useState<string>('asc');
 
-  const [pokemonData, setPokemonData] = useState<Pokemon[]>([]);
+  const [pokemonData, setPokemonData] = useState<PokemonProps[]>([]);
   const [totalPokemon, setTotalPokemon] = useState<number>(0);
 
   useEffect(() => {
